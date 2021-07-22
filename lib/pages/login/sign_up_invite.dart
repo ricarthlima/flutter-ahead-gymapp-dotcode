@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gym_app/pages/sign_up/sign_up_page.dart';
 import 'package:gym_app/shared/constants/custom_colors.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class SignUpInvite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
@@ -39,12 +39,11 @@ class SignUpInvite extends StatelessWidget {
           // ignore: deprecated_member_use
           child: RaisedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SignUpPage(),
-                ),
-              );
+              showBarModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return SignUpPage();
+                  });
             },
             child: Text("Cadastre-se"),
             color: CustomColors().getActiveSecondaryButton(),

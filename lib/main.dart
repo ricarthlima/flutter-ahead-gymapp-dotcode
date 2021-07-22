@@ -13,6 +13,9 @@ class MyApp extends StatelessWidget {
       title: 'Gym App',
       home: LoginPage(),
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
     );
   }
 }
