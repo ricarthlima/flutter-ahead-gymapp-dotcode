@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_app/pages/shared_widgets/dialogs.dart';
 import 'package:gym_app/shared/constants/custom_colors.dart';
 
 import 'login_service.dart';
@@ -23,7 +24,7 @@ class _LoginFormState extends State<LoginForm> {
         children: [
           TextFormField(
             validator: (value) {
-              if (value.length < 5) {
+              if (value!.length < 5) {
                 return "Esse e-mail parece curto demais";
               } else if (!value.contains("@")) {
                 return "Esse e-mail está meio estranho, não?";
@@ -55,7 +56,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           TextFormField(
             validator: (value) {
-              if (value.length < 6) {
+              if (value!.length < 6) {
                 return "A senha deve ter pelo menos 6 caracteres";
               }
               return null;
@@ -88,9 +89,9 @@ class _LoginFormState extends State<LoginForm> {
             children: [
               Checkbox(
                 value: this._obscurePassword,
-                onChanged: (bool newValue) {
+                onChanged: (bool? newValue) {
                   setState(() {
-                    this._obscurePassword = newValue;
+                    this._obscurePassword = newValue!;
                   });
                 },
                 activeColor: Colors.blue,
@@ -130,11 +131,18 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _doLogin() async {
-    if (_formKey.currentState.validate()) {
-      LoginService()
-          .login(_mailInputController.text, _passwordInputController.text);
+    if (_formKey.currentState!.validate()) {
+      LoginService().login(
+          context, _mailInputController.text, _passwordInputController.text);
     } else {
-      print("invalido");
+      showDialog(
+        context: context,
+        builder: (context) {
+          return ErrorDialog(
+            message: "Há erros no seu formulário.",
+          );
+        },
+      );
     }
   }
 }

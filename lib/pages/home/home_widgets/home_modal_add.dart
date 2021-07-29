@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'home_list_model.dart';
 
 class HomeModalAdd extends StatefulWidget {
-  final List<HomeListModel> listModels;
-  final Function fncRefresh;
+  final List<HomeListModel>? listModels;
+  final Function? fncRefresh;
 
   HomeModalAdd({this.listModels, this.fncRefresh});
   @override
@@ -54,10 +54,10 @@ class _HomeModalAddState extends State<HomeModalAdd> {
       assetIcon: "assets/icons/gym_icon.png",
     );
     setState(() {
-      widget.listModels.add(hml);
+      widget.listModels!.add(hml);
     });
 
-    widget.fncRefresh();
+    widget.fncRefresh!();
 
     Navigator.pop(context);
   }

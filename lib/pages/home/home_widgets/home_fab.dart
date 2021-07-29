@@ -14,8 +14,8 @@ FloatingActionButton getHomeFab(
       "+",
       style: TextStyle(fontSize: 24),
     ),
-    onPressed: () {
-      return showBarModalBottomSheet(
+    onPressed: () async {
+      return await showBarModalBottomSheet(
         context: context,
         builder: (context) => HomeModalAdd(
           listModels: listModels,

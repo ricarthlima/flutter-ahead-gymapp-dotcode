@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class User {
-  String name;
-  String mail;
-  String password;
-  bool keepOn;
+  String? name;
+  String? mail;
+  String? password;
+  bool? keepOn;
 
   User({
     @required this.name,
@@ -31,10 +31,10 @@ class User {
 
   String toString() {
     return "Name: " +
-        this.name +
+        this.name! +
         "E-mail: " +
-        this.mail +
+        this.mail! +
         "Password: " +
-        this.password;
+        this.password!;
   }
 }

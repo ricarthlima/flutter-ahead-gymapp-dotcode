@@ -4,7 +4,7 @@ import 'package:gym_app/pages/home/home_widgets/home_list_model.dart';
 import 'package:gym_app/shared/constants/custom_colors.dart';
 
 class HomePageContent extends StatefulWidget {
-  final List<HomeListModel> listModels;
+  final List<HomeListModel>? listModels;
   HomePageContent({this.listModels});
 
   @override
@@ -30,10 +30,10 @@ class _HomePageContentState extends State<HomePageContent> {
         horizontal: 20,
       ),
       child: ListView.builder(
-        itemCount: widget.listModels.length,
+        itemCount: widget.listModels!.length,
         itemBuilder: (context, index) {
           return HomeListItem(
-            homeListModel: widget.listModels[index],
+            homeListModel: widget.listModels![index],
           );
         },
       ),
