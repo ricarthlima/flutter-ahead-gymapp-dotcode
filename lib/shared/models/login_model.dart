@@ -1,33 +1,47 @@
 class LoginModel {
-  String name;
-  String mail;
-  String password;
-  bool keepOn;
+  String? name;
+  String? email;
+  bool? keepOn;
 
-  LoginModel({this.name, this.mail, this.password, this.keepOn});
+  String? localId;
+  String? idToken;
+
+  LoginModel({
+    this.name,
+    this.email,
+    this.keepOn,
+    this.localId,
+    this.idToken,
+  });
 
   LoginModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    mail = json['mail'];
-    password = json['password'];
+    email = json['email'];
     keepOn = json['keepOn'];
+    localId = json['localId'];
+    idToken = json['idToken'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
-    data['mail'] = this.mail;
-    data['password'] = this.password;
+    data['email'] = this.email;
     data['keepOn'] = this.keepOn;
+    data['localId'] = this.localId;
+    data['idToken'] = this.idToken;
     return data;
   }
 
   String toString() {
     return "Name: " +
-        this.name +
+        this.name! +
         "\nE-mail: " +
-        this.mail +
-        "\nPassword: " +
-        this.password;
+        this.email! +
+        "\nKeep on: " +
+        this.keepOn!.toString() +
+        "\nLocal Id: " +
+        this.localId! +
+        "\nId Token: " +
+        this.idToken!;
   }
 }

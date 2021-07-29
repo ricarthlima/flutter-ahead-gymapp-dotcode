@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gym_app/pages/home/home_page.dart';
 import 'package:gym_app/pages/login/login_form.dart';
-import 'package:gym_app/pages/login/login_service.dart';
 import 'package:gym_app/pages/login/sign_up_invite.dart';
-import 'package:gym_app/pages/sign_up/sign_up_page.dart';
 import 'package:gym_app/shared/constants/custom_colors.dart';
+import 'package:gym_app/shared/helpers/dao_user.dart';
+import 'package:gym_app/shared/models/login_model.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -21,8 +22,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void callAnimations() async {
-    await Future.delayed(Duration(milliseconds: 200));
-    animeLogo = true;
+    await Future.delayed(Duration(milliseconds: 300));
+    setState(() {
+      animeLogo = true;
+    });
   }
 
   @override
@@ -46,24 +49,19 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              AnimatedPositioned(
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      animeForm = true;
-                    });
-                  },
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 720),
-                    curve: Curves.easeIn,
-                    height: !animeLogo ? 0 : 150,
-                    child: Image.asset(
-                      "assets/gymapp-logo02.png",
-                      height: 125,
-                    ),
+              GestureDetector(
+                onTap: () {
+                  onTapStartButton();
+                },
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 720),
+                  curve: Curves.easeIn,
+                  height: !animeLogo ? 0 : 150,
+                  child: Image.asset(
+                    "assets/gymapp-logo02.png",
+                    height: 125,
                   ),
                 ),
-                duration: Duration(milliseconds: 750),
               ),
               Visibility(
                 visible: !animeForm,
@@ -112,5 +110,22 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  onTapStartButton() async {
+    LoginModel? model = await DaoUser().getUser();
+
+    if (model == null) {
+      setState(() {
+        animeForm = true;
+      });
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
+      );
+    }
   }
 }

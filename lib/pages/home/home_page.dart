@@ -3,6 +3,8 @@ import 'package:gym_app/pages/home/home_widgets/home_appbar.dart';
 import 'package:gym_app/pages/home/home_widgets/home_content.dart';
 import 'package:gym_app/pages/home/home_widgets/home_drawer.dart';
 import 'package:gym_app/pages/home/home_widgets/home_fab.dart';
+import 'package:gym_app/shared/helpers/dao_user.dart';
+import 'package:gym_app/shared/models/login_model.dart';
 
 import 'home_widgets/home_list_model.dart';
 
@@ -29,11 +31,19 @@ class _HomePageState extends State<HomePage> {
     )
   ];
 
+  LoginModel user = LoginModel();
+
+  @override
+  void initState() {
+    super.initState();
+    getLocalInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getHomeAppBar(),
-      drawer: getHomeDrawer(),
+      drawer: getHomeDrawer(context, user),
       floatingActionButton: getHomeFab(context, listModels, refreshPage),
       body: HomePageContent(
         listModels: listModels,
@@ -44,13 +54,9 @@ class _HomePageState extends State<HomePage> {
   refreshPage() {
     setState(() {});
   }
-}
 
-// LISTA DE WIDGET APRENDIDOS
-// Container
-// Text
-// Scaffold
-// AppBar
-// Icon
-// FloatingActionButton
-// Center
+  getLocalInfo() async {
+    this.user = await DaoUser().getUser() as LoginModel;
+    refreshPage();
+  }
+}

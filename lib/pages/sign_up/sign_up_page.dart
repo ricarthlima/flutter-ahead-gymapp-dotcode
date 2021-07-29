@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:gym_app/pages/shared_widgets/dialogs.dart';
 import 'package:gym_app/pages/sign_up/sign_up_service.dart';
 import 'package:gym_app/shared/constants/custom_colors.dart';
-import 'package:gym_app/shared/constants/preferences_keys.dart';
-import 'package:gym_app/shared/models/login_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -57,7 +53,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 children: [
                   TextFormField(
                     validator: (value) {
-                      if (value.length < 10) {
+                      if (value!.length < 10) {
                         return "Digite um nome maior";
                       }
                       return null;
@@ -79,7 +75,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     validator: (value) {
-                      if (value.length < 5) {
+                      if (value!.length < 5) {
                         return "Esse e-mail parece curto demais";
                       } else if (!value.contains("@")) {
                         return "Esse e-mail está meio estranho, não?";
@@ -107,7 +103,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     validator: (value) {
-                      if (value.length < 6) {
+                      if (value!.length < 6) {
                         return "A senha deve ter pelo menos 6 caracteres";
                       }
                       return null;
@@ -148,9 +144,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     children: [
                       Checkbox(
                         value: this.showPassword,
-                        onChanged: (bool newValue) {
+                        onChanged: (bool? newValue) {
                           setState(() {
-                            this.showPassword = newValue;
+                            this.showPassword = newValue!;
                           });
                         },
                         activeColor: Colors.blue,
@@ -181,31 +177,22 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void _doSignUp() {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       SignUpService().signUp(
+        context,
+        _nameInputController.text,
         _mailInputController.text,
         _passwordInputController.text,
       );
     } else {
-      print("invalido");
+      showDialog(
+        context: context,
+        builder: (context) {
+          return ErrorDialog(
+            message: "Há erros no seu formulário.",
+          );
+        },
+      );
     }
-
-    // LoginModel newUser = LoginModel(
-    //   name: _nameInputController.text,
-    //   mail: _mailInputController.text,
-    //   password: _passwordInputController.text,
-    //   keepOn: true,
-    // );
-
-    // _saveUser(newUser);
-  }
-
-  // ignore: unused_element
-  void _saveUser(LoginModel user) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(
-      PreferencesKeys.activeUser,
-      json.encode(user.toJson()),
-    );
   }
 }
